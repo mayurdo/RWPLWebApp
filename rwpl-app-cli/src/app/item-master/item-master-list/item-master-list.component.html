@@ -1,0 +1,65 @@
+<!--<h2 class="sub-header">Item Master</h2>-->
+
+<div style="padding-top: 10px;">
+  <form class="form-horizontal">
+    <fieldset>
+      <legend>Item Master Report</legend>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="inputEmail" class="col-lg-4 control-label">Box code</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" name="boxCode" autocomplete="off" [(ngModel)]="itemSearch.BoxCode" (ngModelChange)="itemSearchValueChange()">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="inputEmail" class="col-lg-4 control-label">Client Name</label>
+            <div class="col-lg-8">
+              <input type="text" class="form-control" name="boxCode" autocomplete="off" [(ngModel)]="itemSearch.ClientName" (ngModelChange)="itemSearchValueChange()">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+         
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <a class="btn btn-link" routerLink="/add-item-master">Add New Item</a>
+  </div>
+</div>
+
+<table class="table table-striped table-hover table-bordered">
+  <thead>
+    <tr>
+      <th>Client Name</th>
+      <th>Box Code</th>
+      <th>PO Code</th>
+      <th>Box Length</th>
+      <th>Box Width</th>
+      <th>Box Height</th>
+      <th>Board Length</th>
+      <th>Board Width</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of gridItemList">
+      <td><span [innerHtml]="item.ClientName"></span> </td>
+      <td><span [innerHtml]="item.BoxCode"></span></td>
+      <td><span [innerHtml]="item.POCode"></span></td>
+      <td><span [innerHtml]="item.BoxSizeLength"></span></td>
+      <td><span [innerHtml]="item.BoxSizeWidth"></span></td>
+      <td><span [innerHtml]="item.BoxSizeHeight"></span></td>
+      <td><span [innerHtml]="item.BoardSizeLength"></span></td>
+      <td><span [innerHtml]="item.BoardSizeWidth"></span></td>
+      <td> <a class="btn btn-link" routerLink="/edit-item/{{item.Id}}">Edit</a> </td>
+    </tr>
+  </tbody>
+</table>

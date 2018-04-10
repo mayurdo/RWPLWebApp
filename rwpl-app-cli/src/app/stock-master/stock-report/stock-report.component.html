@@ -1,0 +1,97 @@
+<form class="form-horizontal">
+  <fieldset>
+    <legend>Stock Report</legend>   
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="inputEmail" class="col-lg-4 control-label">Date</label>
+          <div class="col-lg-8">
+            <input type="date" class="form-control" name="stockEntryDate" [(ngModel)]="searchItem.StockEntryDate">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="boxCode" class="col-md-4 control-label">Box Code Search</label>
+          <div class="col-md-8">
+            <input type="text" class="form-control" id="boxCode" name="boxCode" auto-complete 
+              [source]="boxCodeSearchList" [(ngModel)]="searchItem.BoxCodeSearch"
+              min-chars="0" autocomplete="off" >
+          </div>
+        </div>
+      </div>      
+      <div class="col-md-2">        
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="clientName" class="col-lg-4 control-label">Client Name</label>
+          <div class="col-lg-8">
+            <input type="text" class="form-control" id="clientName" name="clientName" auto-complete 
+              [source]="clientNameSearchList" [(ngModel)]="searchItem.ClientName"
+              min-chars="0" autocomplete="off" >
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <div class="checkbox">
+          <label>
+            <input type="checkbox" id="showAvailableStock" name="showAvailableStock" 
+                [(ngModel)]="searchItem.ShowAvailableStock"> Show Available Stock
+          </label>
+        </div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="col-lg-offset-4 col-lg-8">
+          <button type="submit" class="btn btn-primary" (click)="searchItemStock()">Search</button>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<table class="table table-striped table-hover table-bordered">
+  <thead>
+    <tr>
+      <th>Client name</th>
+      <th>Box Code</th>
+      <th>PO Code</th>
+      <th>Opening Stock</th>
+      <th>Produce Qty</th>
+      <th>Dispatch Qty</th>
+      <th>Closing Stock</th>
+      <th>Invoice No</th>
+      <th>GRN No</th>
+      <!--<th></th>-->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let stock of stockReportList">
+      <td> <span [innerHtml]="stock.ClientName"></span> </td>
+      <td><span [innerHtml]="stock.BoxCode"></span></td>
+      <td><span [innerHtml]="stock.POCode"></span></td>
+      <td><span [innerHtml]="stock.OpeningStock || 0"></span></td>
+      <td><span [innerHtml]="stock.ProduceQty || 0"></span></td>
+      <td><span [innerHtml]="stock.DispatchQty || 0"></span></td>
+      <td><span [innerHtml]="(stock.OpeningStock+stock.ProduceQty)-stock.DispatchQty"></span></td>
+      <td><span [innerHtml]="stock.InvoiceNo"></span></td>
+      <td><span [innerHtml]="stock.GrnNo"></span></td>
+      <!--<td>
+				<a class="btn btn-link">Details</a>
+			</td>-->
+    </tr>
+  </tbody>
+</table>
+
+<!--<div style="width: 100%;">
+  <canvas
+      baseChart
+      [chartType]="'line'"
+      [datasets]="chartData"
+      [labels]="chartLabels"
+      [options]="chartOptions"
+      [legend]="true"
+      (chartClick)="onChartClick($event)">
+  </canvas>
+</div>-->

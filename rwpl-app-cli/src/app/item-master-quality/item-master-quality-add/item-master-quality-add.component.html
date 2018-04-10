@@ -1,0 +1,162 @@
+<div style="padding-top: 10px;">
+  <form class="form-horizontal" [formGroup]="itemAddForm">
+    <fieldset>
+      <legend>Add New Item</legend>
+      <div class="alert alert-success" *ngIf="savedMessage && !itemAddForm.dirty">
+        <span [innerHtml]="savedMessage"></span>
+      </div>
+      <div class="alert alert-danger" *ngIf="errorMessage && itemAddForm.dirty">
+        <span [innerHtml]="errorMessage"></span>
+      </div>
+      <div class="form-group">
+        <label for="clientName" class="col-md-2 control-label">Client Name</label>
+        <div class="col-md-4">
+          <input type="hidden" class="form-control" id="itemId" formControlName="Id">
+          <input type="text" class="form-control" id="clientName" formControlName="ClientName" (change)="checkDuplicateItem()">
+
+          <div class="form-control-ClientName" *ngIf="itemAddForm.controls.ClientName.errors 
+                                                    && (itemAddForm.controls.ClientName.dirty 
+                                                    || itemAddForm.controls.ClientName.touched)">
+            <p *ngIf="itemAddForm.controls.ClientName.errors.required" class="text-danger">Client Name is required</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="boxCode" class="col-md-2 control-label">Box Code</label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="boxCode" formControlName="BoxCode" (change)="checkDuplicateItem()">
+          <div class="form-control-BoxCode" *ngIf="itemAddForm.controls.BoxCode.errors 
+                                                    && (itemAddForm.controls.BoxCode.dirty 
+                                                    || itemAddForm.controls.BoxCode.touched)">
+            <p *ngIf="itemAddForm.controls.BoxCode.errors.required" class="text-danger">Box Code is required</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="poCode" class="col-md-2 control-label">PO Code</label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="poCode" formControlName="POCode">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="boxSizeLength" class="col-md-2 control-label">Box Size</label>
+        <div class="col-md-4 row">
+          <div class="col-md-4">
+            <input type="number" class="form-control" id="boxSizeLength" placeholder="Length" formControlName="BoxSizeLength">
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" id="boxSizeWidth" placeholder="Width" formControlName="BoxSizeWidth">
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" id="boxSizeHeight" placeholder="Height" formControlName="BoxSizeHeight">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="boardSizeLength" class="col-md-2 control-label">Board Size</label>
+        <div class="col-md-4 row">
+          <div class="col-md-4">
+            <input type="number" class="form-control" id="boardSizeLength" placeholder="Length" formControlName="BoardSizeLength">
+          </div>
+          <div class="col-md-4">
+            <input type="number" class="form-control" id="boardSizeWidth" placeholder="Width" formControlName="BoardSizeWidth">
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="poCode" class="col-md-2 control-label">Box Type</label>
+        <div class="col-md-4">
+          <select class="form-control">
+            <option value="">--Select Box Type--</option>
+            <option value="UNIVERSAL">UNIVERSAL</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="PinQty" class="col-md-2 control-label">Pin Qty</label>
+        <div class="col-md-4">
+          <input type="number" class="form-control" id="PinQty" formControlName="PinQty">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="NoOfPly" class="col-md-2 control-label">No of Ply</label>
+        <div class="col-md-4">
+          <input type="number" class="form-control" id="NoOfPly" formControlName="NoOfPly">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-offset-2 col-md-10">
+          <table class="table table-striped table-hover table-bordered">
+            <tr>
+              <th class="col-sm-2"></th>
+              <th class="col-sm-2">BF</th>
+              <th class="col-sm-2">GSM</th>
+              <th class="col-sm-2">Weight</th>
+              <th class="col-sm-2">Busting</th>
+              <th class="col-sm-2">Action</th>
+            </tr>
+            <tr>
+              <th>
+               <!-- <select class="form-control">
+                  
+                <option value="">-- Select --</option>
+                <option *ngFor="let ply of plyList" [selected]="ply==plyList[boxPaperCombinationList.length]" [value]="ply">{{ply}}</option>
+              </select>-->
+              <input type="text" class="form-control" id="PaperType" name="PaperType" formControlName="PaperType" readonly>              
+              </th>
+              <td><input type="number" class="form-control" id="BF" name="BF" formControlName="BF" ></td>
+              <th><input type="number" class="form-control" id="GSM" name="GSM" formControlName="GSM" (keyup)="calculateWeight()"></th>
+              <td><input type="number" class="form-control" id="Weight" name="Weight" formControlName="Weight" readonly></td>
+              <td><input type="number" class="form-control" id="Bursting" name="Bursting" formControlName="Bursting" readonly></td>
+              <td><button type="submit" class="btn btn-link" (click)="AddPly()">Add</button></td>
+            </tr>
+            <tr *ngFor="let paperCombination of boxPaperCombinationList">
+              <th> <span [innerHTML]="paperCombination.PaperType"></span> </th>
+              <td></td>
+              <th></th>
+              <td></td>
+              <td></td>
+              <td><button type="submit" class="btn btn-link" (click)="deletePly()">Delete</button></td>
+            </tr>            
+            <tr>              
+              <td></td>
+              <td></td>
+              <th>Total</th>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="fitment" class="col-md-2 control-label">Fitment</label>
+        <div class="col-md-4">
+          <input type="text" class="form-control" id="fitment" formControlName="fitmentName">
+
+        </div>
+        <div class="col-md-4" style="margin-left:-30px;">
+          <button class="btn btn-link" (click)="addFitment(itemAddForm.controls['fitmentName'])">Add</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-4 col-md-offset-2">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let fitment of fitmentList">
+              {{fitment}} <span class="badge" (click)="deleteFitment(fitment)"> X</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-10 col-md-offset-2">
+          <button type="submit" class="btn btn-primary" (click)="saveItemMaster()">Submit</button> &nbsp; &nbsp;
+          <button type="reset" class="btn btn-default" (click)="resetForm()">Cancel</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
